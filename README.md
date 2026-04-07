@@ -1,15 +1,61 @@
-# cicd-pipeline-train-schedule-autodeploy
+CI/CD Pipeline Using Jenkins, Docker & Kubernetes
 
-This is a simple train schedule app written using nodejs. It is intended to be used as a sample application for a series of hands-on learning activities.
+Objective:
+To automate the process of building, packaging, and deploying an application using a CI/CD pipeline.
 
-## Running the app
+Architecture Overview:
+Developer → GitHub → Jenkins → Docker → Docker Hub → Kubernetes → Application
 
-You need a Java JDK 7 or later to run the build. You can run the build like this:
+Tools & Technologies Used:
+- GitHub – Source code repository
+- Jenkins – Continuous Integration tool
+- Docker – Containerization platform
+- Docker Hub – Image repository
+- Kubernetes – Container orchestration
+- Linux (Ubuntu) – Deployment environment
 
-    ./gradlew build
+Workflow Explanation:
 
-You can run the app with:
+Step 1: Code Commit
+Developer pushes code to GitHub repository.
 
-    ./gradlew npm_start
+Step 2: CI – Jenkins
+Jenkins builds the application and Docker image.
 
-Once it is running, you can access it in a browser at http://localhost:8080
+Step 3: Docker Push
+Image is pushed to Docker Hub.
+
+Step 4: CD – Kubernetes
+Kubernetes deploys the latest image.
+
+Jenkins Pipeline Script:
+
+pipeline {
+ agent any
+ stages {
+  stage('Clone Code') {
+   steps {
+    git branch: 'main', url: 'https://github.com/vaishnavib9/cicd-project.git'
+   }
+  }
+  stage('Build Docker Image') {
+   steps {
+    sh 'docker build -t train-app .'
+   }
+  }
+  stage('Push to Docker Hub') {
+   steps {
+    sh 'docker tag train-app vaishnavib98/train-app'
+    sh 'docker push vaishnavib98/train-app'
+   }
+  }
+  stage('Deploy to Kubernetes') {
+   steps {
+    sh 'kubectl set image deployment/train-app train-app=vaishnavib98/train-app'
+   }
+  }
+ }
+}
+
+Conclusion:
+This project demonstrates a complete CI/CD pipeline using Jenkins, Docker, and Kubernetes.
