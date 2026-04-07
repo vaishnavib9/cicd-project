@@ -1,0 +1,333 @@
+Started by user vaishnavib
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/cicd-pipeline
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Clone Code)
+[Pipeline] git
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/cicd-pipeline/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/vaishnavib9/cicd-project.git # timeout=10
+Fetching upstream changes from https://github.com/vaishnavib9/cicd-project.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.34.1'
+ > git fetch --tags --force --progress -- https://github.com/vaishnavib9/cicd-project.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision 2d411549e3a30ad3c3d78d3b830d184b622a9271 (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 2d411549e3a30ad3c3d78d3b830d184b622a9271 # timeout=10
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D main # timeout=10
+ > git checkout -b main 2d411549e3a30ad3c3d78d3b830d184b622a9271 # timeout=10
+Commit message: "Add files via upload"
+ > git rev-list --no-walk 2d411549e3a30ad3c3d78d3b830d184b622a9271 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Docker Image)
+[Pipeline] sh
++ docker build -t train-app .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 156B done
+#1 DONE 0.1s
+
+#2 [internal] load metadata for docker.io/library/node:carbon
+#2 ...
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:carbon
+#2 DONE 1.4s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 79B done
+#4 DONE 0.1s
+
+#5 [internal] load build context
+#5 transferring context: 9.80kB 0.1s done
+#5 DONE 0.1s
+
+#6 [1/5] FROM docker.io/library/node:carbon@sha256:a681bf74805b80d03eb21a6c0ef168a976108a287a74167ab593fc953aac34df
+#6 resolve docker.io/library/node:carbon@sha256:a681bf74805b80d03eb21a6c0ef168a976108a287a74167ab593fc953aac34df
+#6 resolve docker.io/library/node:carbon@sha256:a681bf74805b80d03eb21a6c0ef168a976108a287a74167ab593fc953aac34df 0.1s done
+#6 DONE 0.2s
+
+#7 [2/5] WORKDIR /usr/src/app
+#7 CACHED
+
+#8 [3/5] COPY package*.json ./
+#8 CACHED
+
+#9 [4/5] RUN npm install
+#9 CACHED
+
+#10 [5/5] COPY . .
+#10 DONE 0.9s
+
+#11 exporting to image
+#11 exporting layers
+#11 exporting layers 0.8s done
+#11 exporting manifest sha256:c0a1ab7fdb8170ff38dc878de692c68f51b1f5672bfe96faac6e54994a2c3155 0.1s done
+#11 exporting config sha256:01cde3f41d67a56bb5946f815276221d391c0bcc89a43de53e17c0575ea019c8
+#11 exporting config sha256:01cde3f41d67a56bb5946f815276221d391c0bcc89a43de53e17c0575ea019c8 0.1s done
+#11 exporting attestation manifest sha256:c23d412785921cd369376c411ce72411d35580fefeab9a93d43c8953d65a80b1
+#11 exporting attestation manifest sha256:c23d412785921cd369376c411ce72411d35580fefeab9a93d43c8953d65a80b1 0.2s done
+#11 exporting manifest list sha256:afaea4b9848b1cfe30e89d1bc591f2c3bc661cc151726c239357fd3aed40be0f 0.1s done
+#11 naming to docker.io/library/train-app:latest
+#11 naming to docker.io/library/train-app:latest 0.0s done
+#11 unpacking to docker.io/library/train-app:latest
+#11 unpacking to docker.io/library/train-app:latest 0.2s done
+#11 DONE 2.0s
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Push to Docker Hub)
+[Pipeline] sh
++ docker tag train-app vaishnavib98/train-app
+[Pipeline] sh
++ docker push vaishnavib98/train-app
+Using default tag: latest
+The push refers to repository [docker.io/vaishnavib98/train-app]
+ec5011fb1304: Waiting
+db0efb86e806: Waiting
+c877b722db6f: Waiting
+1c151cd1b3ea: Waiting
+253feda1cc54: Waiting
+49a5ee785620: Waiting
+117d26469c8a: Waiting
+645c20ec8214: Waiting
+146bd6a88618: Waiting
+9935d0c62ace: Waiting
+e705a4c4fd31: Waiting
+db8fbd9db2fe: Waiting
+49017a8d390a: Waiting
+fbd993995f40: Waiting
+117d26469c8a: Waiting
+645c20ec8214: Waiting
+146bd6a88618: Waiting
+9935d0c62ace: Waiting
+e705a4c4fd31: Waiting
+db8fbd9db2fe: Waiting
+49017a8d390a: Waiting
+fbd993995f40: Waiting
+ec5011fb1304: Waiting
+db0efb86e806: Waiting
+c877b722db6f: Waiting
+1c151cd1b3ea: Waiting
+253feda1cc54: Waiting
+49a5ee785620: Waiting
+fbd993995f40: Waiting
+ec5011fb1304: Waiting
+db0efb86e806: Waiting
+c877b722db6f: Waiting
+1c151cd1b3ea: Waiting
+253feda1cc54: Waiting
+49a5ee785620: Waiting
+117d26469c8a: Waiting
+645c20ec8214: Waiting
+146bd6a88618: Waiting
+9935d0c62ace: Waiting
+e705a4c4fd31: Waiting
+db8fbd9db2fe: Waiting
+49017a8d390a: Waiting
+117d26469c8a: Waiting
+645c20ec8214: Waiting
+146bd6a88618: Waiting
+9935d0c62ace: Waiting
+e705a4c4fd31: Waiting
+db8fbd9db2fe: Waiting
+49017a8d390a: Waiting
+fbd993995f40: Waiting
+ec5011fb1304: Waiting
+db0efb86e806: Waiting
+c877b722db6f: Waiting
+1c151cd1b3ea: Waiting
+253feda1cc54: Waiting
+49a5ee785620: Waiting
+e705a4c4fd31: Waiting
+db8fbd9db2fe: Waiting
+49017a8d390a: Waiting
+fbd993995f40: Waiting
+ec5011fb1304: Waiting
+db0efb86e806: Waiting
+c877b722db6f: Waiting
+1c151cd1b3ea: Waiting
+253feda1cc54: Waiting
+49a5ee785620: Waiting
+117d26469c8a: Waiting
+645c20ec8214: Waiting
+146bd6a88618: Waiting
+9935d0c62ace: Waiting
+e705a4c4fd31: Waiting
+db8fbd9db2fe: Waiting
+49017a8d390a: Waiting
+fbd993995f40: Waiting
+ec5011fb1304: Waiting
+db0efb86e806: Waiting
+c877b722db6f: Waiting
+1c151cd1b3ea: Waiting
+253feda1cc54: Waiting
+49a5ee785620: Waiting
+117d26469c8a: Waiting
+645c20ec8214: Waiting
+146bd6a88618: Waiting
+9935d0c62ace: Waiting
+ec5011fb1304: Waiting
+db0efb86e806: Waiting
+c877b722db6f: Waiting
+1c151cd1b3ea: Waiting
+253feda1cc54: Waiting
+49a5ee785620: Waiting
+117d26469c8a: Waiting
+645c20ec8214: Waiting
+146bd6a88618: Waiting
+9935d0c62ace: Waiting
+e705a4c4fd31: Waiting
+db8fbd9db2fe: Waiting
+49017a8d390a: Waiting
+fbd993995f40: Waiting
+e705a4c4fd31: Waiting
+db8fbd9db2fe: Waiting
+49017a8d390a: Waiting
+fbd993995f40: Waiting
+ec5011fb1304: Waiting
+db0efb86e806: Waiting
+c877b722db6f: Waiting
+1c151cd1b3ea: Waiting
+253feda1cc54: Waiting
+49a5ee785620: Waiting
+117d26469c8a: Waiting
+645c20ec8214: Waiting
+146bd6a88618: Waiting
+9935d0c62ace: Waiting
+253feda1cc54: Waiting
+49a5ee785620: Waiting
+117d26469c8a: Waiting
+645c20ec8214: Waiting
+146bd6a88618: Waiting
+9935d0c62ace: Waiting
+e705a4c4fd31: Waiting
+db8fbd9db2fe: Waiting
+49017a8d390a: Waiting
+fbd993995f40: Waiting
+ec5011fb1304: Waiting
+db0efb86e806: Waiting
+c877b722db6f: Waiting
+1c151cd1b3ea: Waiting
+117d26469c8a: Waiting
+645c20ec8214: Waiting
+146bd6a88618: Waiting
+9935d0c62ace: Waiting
+e705a4c4fd31: Waiting
+db8fbd9db2fe: Waiting
+49017a8d390a: Waiting
+fbd993995f40: Waiting
+ec5011fb1304: Waiting
+db0efb86e806: Waiting
+c877b722db6f: Waiting
+1c151cd1b3ea: Waiting
+253feda1cc54: Waiting
+49a5ee785620: Waiting
+253feda1cc54: Waiting
+49a5ee785620: Waiting
+117d26469c8a: Waiting
+645c20ec8214: Waiting
+146bd6a88618: Waiting
+9935d0c62ace: Waiting
+e705a4c4fd31: Waiting
+db8fbd9db2fe: Waiting
+49017a8d390a: Waiting
+fbd993995f40: Waiting
+ec5011fb1304: Waiting
+db0efb86e806: Waiting
+c877b722db6f: Waiting
+1c151cd1b3ea: Waiting
+db0efb86e806: Waiting
+c877b722db6f: Waiting
+1c151cd1b3ea: Waiting
+253feda1cc54: Waiting
+49a5ee785620: Waiting
+117d26469c8a: Waiting
+645c20ec8214: Waiting
+146bd6a88618: Waiting
+9935d0c62ace: Waiting
+e705a4c4fd31: Layer already exists
+db8fbd9db2fe: Waiting
+49017a8d390a: Waiting
+fbd993995f40: Waiting
+ec5011fb1304: Waiting
+146bd6a88618: Waiting
+9935d0c62ace: Waiting
+db8fbd9db2fe: Waiting
+49017a8d390a: Waiting
+fbd993995f40: Waiting
+ec5011fb1304: Waiting
+db0efb86e806: Waiting
+c877b722db6f: Waiting
+1c151cd1b3ea: Waiting
+253feda1cc54: Waiting
+49a5ee785620: Waiting
+117d26469c8a: Waiting
+645c20ec8214: Waiting
+fbd993995f40: Waiting
+ec5011fb1304: Waiting
+db0efb86e806: Waiting
+c877b722db6f: Waiting
+1c151cd1b3ea: Layer already exists
+253feda1cc54: Waiting
+49a5ee785620: Waiting
+117d26469c8a: Waiting
+645c20ec8214: Waiting
+146bd6a88618: Waiting
+9935d0c62ace: Waiting
+db8fbd9db2fe: Waiting
+49017a8d390a: Waiting
+db0efb86e806: Waiting
+c877b722db6f: Waiting
+253feda1cc54: Waiting
+49a5ee785620: Waiting
+117d26469c8a: Waiting
+645c20ec8214: Waiting
+146bd6a88618: Waiting
+9935d0c62ace: Waiting
+db8fbd9db2fe: Waiting
+49017a8d390a: Waiting
+fbd993995f40: Waiting
+ec5011fb1304: Waiting
+db0efb86e806: Layer already exists
+c877b722db6f: Layer already exists
+253feda1cc54: Layer already exists
+49a5ee785620: Layer already exists
+117d26469c8a: Waiting
+645c20ec8214: Layer already exists
+146bd6a88618: Layer already exists
+9935d0c62ace: Layer already exists
+db8fbd9db2fe: Layer already exists
+49017a8d390a: Layer already exists
+fbd993995f40: Layer already exists
+ec5011fb1304: Waiting
+ec5011fb1304: Waiting
+ec5011fb1304: Waiting
+ec5011fb1304: Waiting
+117d26469c8a: Pushed
+ec5011fb1304: Pushed
+latest: digest: sha256:afaea4b9848b1cfe30e89d1bc591f2c3bc661cc151726c239357fd3aed40be0f size: 856
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy to kubernetes)
+[Pipeline] sh
++ kubectl set image deployment/train-app train-app=vaishnavib98/train-app
+deployment.apps/train-app image updated
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
